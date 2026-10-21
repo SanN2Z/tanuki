@@ -1,0 +1,14 @@
+[Unit]
+Description=Tanuki exit
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+UMask=0077
+ExecStart="{{SING_BOX_BIN}}" run -c "{{SERVER_CONFIG}}"
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,29 @@
+{
+  "log": {"level": "warn", "timestamp": true},
+  "inbounds": [{
+    "type": "vless",
+    "tag": "tanuki-in",
+    "listen": "0.0.0.0",
+    "listen_port": 9443,
+    "users": [{
+      "name": "client01",
+      "uuid": "{{CLIENT_UUID}}",
+      "flow": "xtls-rprx-vision"
+    }],
+    "tls": {
+      "enabled": true,
+      "server_name": "{{HANDSHAKE_HOST}}",
+      "reality": {
+        "enabled": true,
+        "handshake": {"server": "{{HANDSHAKE_HOST}}", "server_port": 443},
+        "private_key": "{{REALITY_PRIVATE_KEY}}",
+        "short_id": ["{{SHORT_ID}}"]
+      }
+    }
+  }],
+  "outbounds": [{"type": "direct", "tag": "direct"}],
+  "route": {
+    "rules": [{"ip_is_private": true, "action": "reject"}],
+    "final": "direct"
+  }
+}

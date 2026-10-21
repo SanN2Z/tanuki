@@ -1,0 +1,43 @@
+# Render into the recipient's private directory; start with TUN disabled.
+mixed-port: 17890
+allow-lan: false
+bind-address: 127.0.0.1
+mode: rule
+log-level: warning
+ipv6: true
+external-controller: ""
+find-process-mode: off
+geo-auto-update: false
+tun:
+  enable: false
+dns:
+  enable: true
+  listen: 127.0.0.1:11053
+  enhanced-mode: redir-host
+  ipv6: true
+  respect-rules: true
+  default-nameserver: ["{{BOOTSTRAP_DNS}}"]
+  proxy-server-nameserver: ["{{BOOTSTRAP_DNS}}"]
+  nameserver: ["https://1.1.1.1/dns-query#JP"]
+proxies:
+  - name: JP-EXIT
+    type: vless
+    server: "{{VPS_ADDRESS}}"
+    port: 9443
+    uuid: "{{CLIENT_UUID}}"
+    network: tcp
+    udp: true
+    tls: true
+    flow: xtls-rprx-vision
+    servername: "{{HANDSHAKE_HOST}}"
+    client-fingerprint: chrome
+    skip-cert-verify: false
+    reality-opts:
+      public-key: "{{REALITY_PUBLIC_KEY}}"
+      short-id: "{{SHORT_ID}}"
+proxy-groups:
+  - name: JP
+    type: select
+    proxies: [JP-EXIT]
+rules:
+  - MATCH,JP
