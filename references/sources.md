@@ -4,7 +4,7 @@
 
 ## 参考项目
 
-[LinXiaoTao/FuckClaude](https://github.com/LinXiaoTao/FuckClaude) 的 [signals.ts](https://github.com/LinXiaoTao/FuckClaude/blob/master/src/config/signals.ts) 提供时区、语言、字体、设备、Intl 和 WebRTC 的候选检测思路。其权重与“中国用户”标签属于作者模型，不是 Anthropic 官方规则。本技能独立实现采集，没有复制上游代码、评分或素材。
+[LinXiaoTao/FuckClaude](https://github.com/LinXiaoTao/FuckClaude) 的 [signals.ts](https://github.com/LinXiaoTao/FuckClaude/blob/master/src/config/signals.ts) 提供时区、语言、字体、设备、Intl 和 WebRTC 的候选检测思路。其评分属于该项目自定义的评估方式，不代表 Anthropic 官方规则。本技能独立实现采集，没有复制上游代码、评分或素材。
 
 上游 README 的日期/Unicode 标记叙述属于特定版本逆向报告。没有当前版本直接证据时，不用于断言本机行为。浏览器扫描不能替代原生客户端或远端网络测量。
 
@@ -16,7 +16,7 @@
 - [Chrome UA-CH](https://developer.chrome.com/docs/privacy-security/user-agent-client-hints) 与 [高熵信息 API](https://developer.mozilla.org/en-US/docs/Web/API/NavigatorUAData/getHighEntropyValues)：传统 UA 之外还有独立接口，支持和权限有差异。
 - [MDN ICE 类型](https://developer.mozilla.org/en-US/docs/Web/API/RTCIceCandidate/type)：host、srflx、prflx、relay 需结合路径解释。
 - [MDN 地理定位](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API)：安全上下文与授权约束；定位与时区是不同信号。
-- [Khronos WebGL renderer 扩展](https://registry.khronos.org/webgl/extensions/WEBGL_debug_renderer_info/)：图形信息接口，不提供国籍判断。
+- [Khronos WebGL renderer 扩展](https://registry.khronos.org/webgl/extensions/WEBGL_debug_renderer_info/)：图形信息接口，字段用于描述运行环境。
 - [W3C 浏览器指纹指引](https://www.w3.org/TR/fingerprinting-guidance/)：可关联浏览器特征与测量边界，不是地区概率模型。
 - [Microsoft 用户语言列表](https://learn.microsoft.com/en-us/powershell/module/international/set-winuserlanguagelist)：修改会涉及输入法等设置，不能为检测替换整份列表。
 - [ipapi 开发说明](https://ipapi.co/developers/) 与 [IPinfo API](https://ipinfo.io/developers/core-api)：IP 数据库观测；字段和匿名调用可用性会变化，失败保留未验证。

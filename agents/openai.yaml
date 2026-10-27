@@ -1,4 +1,4 @@
 interface:
-  display_name: "伪装小日本"
+  display_name: "网络环境配置与检测"
   short_description: "区分个人电脑与中转机，支持从零配置或检测泄露，先确认用途和模式再执行"
   default_prompt: "使用 $tanuki，先确认这台机器是个人电脑还是中转机，以及从零配置还是检测现有环境，再执行对应流程。"

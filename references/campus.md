@@ -10,7 +10,7 @@ Windows 使用 Get-NetIPConfiguration / route print；macOS 使用 route -n get�
 
 先按“解析 → TCP → 协议握手 → HTTPS → 应用”的顺序缩小问题。UDP DNS 被限不代表 TCP DNS 或 DoH 也不可用；TCP 连接成功也不代表代理握手成功。
 
-## 第一跳与所谓“伪装”
+## 第一跳协议与最终出口
 
 VPS 起步方案使用 VLESS + REALITY + Vision over TCP；客户端 TLS 配置与服务端实际匹配。若目标校园路径只允许某个可用端口，基于真实端口测试和服务器权限选择端口，不靠把名称改成“校园/日本”解决。
 

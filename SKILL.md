@@ -3,7 +3,7 @@ name: tanuki
 description: "先确认个人电脑或中转机用途，再选择从零配置或检测模式。建立日本出口环境，或排查现有代理、DNS、IPv6、浏览器及转发链路中的泄露和配置遗漏；缺资源时暂停并续接。"
 ---
 
-# 伪装小日本
+# 网络环境配置与检测
 
 调用名 tanuki。个人电脑和中转机分别处理；从零配置与检测使用不同流程。网络目标默认 JP，实际运行目标应用的终端再核对 Tokyo 时区、UTC+09:00、日本地区格式和所需语言。
 
@@ -132,4 +132,4 @@ python <skill-dir>/scripts/collect_environment.py --network --proxy http://127.0
 
 ## 来源与限制
 
-[来源](references/sources.md) 包含官方配置说明、FuckClaude 的检测思路及 c-pool 的网络操作经验。本技能按版本和实际连接取证，不计算封号概率，也不能证明人的国籍或平台未公开的账号判断。
+[来源](references/sources.md) 包含官方配置说明、FuckClaude 的检测思路及 c-pool 的网络操作经验。本技能按版本和实际连接取证，报告配置差异与已验证范围，不对平台未公开的账号判断作推断。
