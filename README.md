@@ -1,6 +1,17 @@
 # tanuki · 网络环境配置与检测
 
-供本机 agent 使用的网络环境配置与检测流程，默认目标出口为日本。先询问设备用途和任务模式，再选择对应步骤。
+成员先读培训指南，把仓库地址交给能在本机执行命令的 Agent，按 tanuki 流程完成环境检测、配置和交接。默认目标出口为日本。
+
+## 给成员的入口
+
+1. 阅读 [培训指南](docs/training-guide.md)，或直接转发 [两页 PDF](docs/training-guide.pdf)。
+2. 把指南中的“第一次使用”整段发给本机 Agent，由它获取本仓库、读取 [SKILL.md](SKILL.md) 并执行。
+
+已有配置先检测并修复，没有配置再从零准备。成员提供管理员分配的节点文件，并在需要时完成登录、系统授权等交互；Agent 负责具体命令、配置、验证与交接。完成后保留主线路、实际出口、日常启动方式和续接位置。
+
+完整流程由仓库维护，后续复查仍使用同一个入口。具备本机文件与终端能力即可开始，无需成员先手动安装 skill 或准备开发工具。
+
+## 适用场景
 
 | 用途 | 从零配置 | 检测现有环境 |
 |---|---|---|
@@ -9,7 +20,7 @@
 
 中转机还会确认：只做 SSH/frp 跳板、给其他设备提供上网出口，还是自己运行 Claude/浏览器。兼用设备分别检查，纯转发机不套用个人桌面的语言和时区要求。
 
-## 安装与调用
+## 可选：安装为 skill
 
 下载 [dist/tanuki.zip](dist/tanuki.zip)，解压后将整个 tanuki 目录放到：
 
@@ -39,8 +50,10 @@ $tanuki 检测并修复，先按实际用途确定检查范围。
 $tanuki 继续 <work-dir>/RUN.md
 ~~~
 
-## 工作流文件
+## Agent 工作流
 
+- [培训入口与成员交接](references/member-onboarding.md)
+- [Claude 应用接入与故障分流](references/claude-usage.md)
 - [用途与中转机流程](references/roles.md)
 - [检测流程](references/detection.md)
 - [裸机启动与暂停续接](references/bootstrap.md)
@@ -65,3 +78,14 @@ python tests/check_templates.py --mihomo <mihomo路径> --sing-box <sing-box路�
 ~~~
 
 模板解析通过不能代替目标电脑、真实下游和当前线路的验收。来源和测量边界见 [sources.md](references/sources.md)。
+
+## 更新培训指南
+
+编辑 `docs/training-guide.md`，然后生成 HTML 和 PDF：
+
+~~~text
+python -m pip install -r docs/requirements.txt
+python docs/build_training_guide.py --pdf
+~~~
+
+文档构建需要 Playwright Chromium；已有浏览器可通过 `--browser <可执行文件路径>` 指定。缺少浏览器时运行 `python -m playwright install chromium`。这些依赖仅用于维护培训材料，执行 tanuki 流程无需安装。
