@@ -4,8 +4,8 @@
 
 ## 给成员的入口
 
-1. 阅读 [培训指南](docs/training-guide.md)，或直接转发 [两页 PDF](docs/training-guide.pdf)。
-2. 把指南中的“第一次使用”整段发给本机 Agent，由它获取本仓库、读取 [SKILL.md](SKILL.md) 并执行。
+1. 阅读 [Claude 使用指南](docs/training-guide.md)，或直接转发 [PDF](docs/training-guide.pdf)。指南以 Claude Code CLI 为主，覆盖网络配置、代理接入、安装登录、日常任务、命令、用量和故障处理。
+2. 把指南第 1 节的配置请求整段发给本机 Agent，由它获取本仓库、读取 [SKILL.md](SKILL.md) 并执行。
 
 已有配置先检测并修复，没有配置再从零准备。成员提供管理员分配的节点文件，并在需要时完成登录、系统授权等交互；Agent 负责具体命令、配置、验证与交接。完成后保留主线路、实际出口、日常启动方式和续接位置。
 

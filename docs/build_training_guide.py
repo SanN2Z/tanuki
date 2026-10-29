@@ -1,6 +1,7 @@
-"""Build the member training guide from its Markdown source."""
+"""Build the Claude CLI guide from its Markdown source."""
 
 import argparse
+from html import escape
 import json
 from pathlib import Path
 
@@ -36,6 +37,7 @@ table { width: 100%; border-collapse: collapse; margin: 2mm 0;
 th, td { padding: 2mm 3mm; border: 1px solid #dce8e3; text-align: left; }
 th { color: #356358; background: #eef5f1; }
 th:first-child, td:first-child { width: 28%; }
+table:has(code) th:first-child, table:has(code) td:first-child { width: 38%; }
 .footer { position: absolute; left: 17mm; right: 17mm; bottom: 8mm;
   border-top: 1px solid #dce6e2; padding-top: 2mm; color: #869d96;
   font-size: 8pt; display: flex; justify-content: space-between; }
@@ -53,13 +55,14 @@ th:first-child, td:first-child { width: 28%; }
 
 def build_html():
     source = (ROOT / "training-guide.md").read_text(encoding="utf-8")
+    title = next(line[2:].strip() for line in source.splitlines() if line.startswith("# "))
     content = markdown.markdown(source, extensions=["tables", "fenced_code"])
     pages = content.split('<div class="page-break"></div>')
     sections = []
     for index, body in enumerate(pages, 1):
         sections.append(
             '<section class="sheet">'
-            '<div class="topline">TANUKI · 成员培训指南</div>'
+            '<div class="topline">CLAUDE CODE · CLI 使用指南</div>'
             f'<article>{body}</article><div class="footer">'
             '<span>github.com/SanN2Z/tanuki</span>'
             f'<span>{index:02} / {len(pages):02}</span></div></section>'
@@ -67,7 +70,7 @@ def build_html():
     html = (
         '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
-        '<title>tanuki 成员培训指南</title>'
+        f'<title>{escape(title)}</title>'
         f'<style>{STYLE}</style></head><body>{"".join(sections)}</body></html>'
     )
     destination = ROOT / "training-guide.html"
