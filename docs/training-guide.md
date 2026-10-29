@@ -10,6 +10,16 @@ Claude Code CLI 在终端中使用，可以直接读取项目文件、修改代�
 
 准备好管理员分配的节点或家宽配置、自己获授权的 Claude 账号，以及能在目标电脑读文件、执行命令的 Agent。配置还没拿到时，说明“尚未分配”。
 
+### 需要自建 VPS 时，从官方入口购买
+
+| 商家 | 注册 / 购买入口 | 套餐与价格 |
+|---|---|---|
+| LightNode | [官网](https://www.lightnode.com/) · [控制台](https://console.lightnode.com/) | [东京 VPS](https://go.lightnode.com/tokyo-vps) |
+| Vultr | [官网](https://www.vultr.com/) · [控制台](https://my.vultr.com/) | [价格页](https://www.vultr.com/pricing/) |
+| Akamai / Linode | [注册与登录](https://login.linode.com/) | [价格页](https://www.akamai.com/cloud/pricing/) |
+
+购买前确认地区、Linux 系统、独立 IPv4、月流量和计费规则；付款后把服务器信息的本地文件位置交给 Agent 部署。VPS 通常提供机房 IP，住宅 / 家宽出口按对应资源另行选择。具体价格与库存以购买页面为准。
+
 ### 把下面整段交给本机 Agent
 
 ```text

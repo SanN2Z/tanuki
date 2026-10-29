@@ -45,6 +45,34 @@ table:has(code) th:first-child, table:has(code) td:first-child { width: 38%; }
 <h2>01 开始前，先把环境配好</h2>
 <p>本手册按以下顺序使用：<strong>网络与出口 → CLI 代理 → 安装登录 → 日常任务 → 命令与用量 → 维护排障</strong>。Windows 使用 PowerShell；macOS / Linux 使用系统终端。命令与安装方式按 2026 年 10 月 29 日的官方文档整理。</p>
 <p>准备好管理员分配的节点或家宽配置、自己获授权的 Claude 账号，以及能在目标电脑读文件、执行命令的 Agent。配置还没拿到时，说明“尚未分配”。</p>
+<h3>需要自建 VPS 时，从官方入口购买</h3>
+<table>
+<thead>
+<tr>
+<th>商家</th>
+<th>注册 / 购买入口</th>
+<th>套餐与价格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LightNode</td>
+<td><a href="https://www.lightnode.com/">官网</a> · <a href="https://console.lightnode.com/">控制台</a></td>
+<td><a href="https://go.lightnode.com/tokyo-vps">东京 VPS</a></td>
+</tr>
+<tr>
+<td>Vultr</td>
+<td><a href="https://www.vultr.com/">官网</a> · <a href="https://my.vultr.com/">控制台</a></td>
+<td><a href="https://www.vultr.com/pricing/">价格页</a></td>
+</tr>
+<tr>
+<td>Akamai / Linode</td>
+<td><a href="https://login.linode.com/">注册与登录</a></td>
+<td><a href="https://www.akamai.com/cloud/pricing/">价格页</a></td>
+</tr>
+</tbody>
+</table>
+<p>购买前确认地区、Linux 系统、独立 IPv4、月流量和计费规则；付款后把服务器信息的本地文件位置交给 Agent 部署。VPS 通常提供机房 IP，住宅 / 家宽出口按对应资源另行选择。具体价格与库存以购买页面为准。</p>
 <h3>把下面整段交给本机 Agent</h3>
 <pre><code class="language-text">请获取 https://github.com/SanN2Z/tanuki，读取 SKILL.md 并执行。
 这台电脑用于个人日常工作，主要用 Claude Code CLI，同时需要浏览器完成登录。
