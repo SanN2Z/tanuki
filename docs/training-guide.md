@@ -18,7 +18,7 @@ Claude Code CLI 在终端中使用，可以直接读取项目文件、修改代�
 | Vultr | [官网](https://www.vultr.com/) · [控制台](https://my.vultr.com/) | [价格页](https://www.vultr.com/pricing/) |
 | Akamai / Linode | [注册与登录](https://login.linode.com/) | [价格页](https://www.akamai.com/cloud/pricing/) |
 
-购买前确认地区、Linux 系统、独立 IPv4、月流量和计费规则；付款后把服务器信息的本地文件位置交给 Agent 部署。VPS 通常提供机房 IP，住宅 / 家宽出口按对应资源另行选择。具体价格与库存以购买页面为准。
+购买前确认地区、Linux 系统、独立 IPv4、月流量和计费规则；付款后把服务器信息的本地文件位置交给 Agent 部署。VPS 通常提供机房 IP；静态家宽 IP 可在 [米芽 IP · 静态代理](https://miyaip.com/dashboard/staticProxy) 按需另购。具体价格与库存以购买页面为准。
 
 ### 把下面整段交给本机 Agent
 
@@ -40,6 +40,8 @@ Claude Code CLI 在终端中使用，可以直接读取项目文件、修改代�
 ## 02 网络安全：确认实际走哪条出口
 
 典型链路是：**你的电脑 → 本地代理客户端 → 管理员分配的固定出口 → Claude**。直达出口不稳定时，才按方案增加中转；最终出口仍使用管理员确认的资源。
+
+**家宽连接上限：** 部分产品限 2 台设备同时连接；校园网来源 IP 可能变化，若商家按来源计数、旧连接未释放，两台电脑也可能触发上限。购买前向客服确认计数和释放规则，结合网络与设备数量自主决定是否购买。
 
 ### 先弄懂四个词
 
