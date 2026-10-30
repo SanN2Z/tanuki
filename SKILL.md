@@ -11,6 +11,8 @@ description: "先确认个人电脑或中转机用途，再选择从零配置或
 
 从 [GitHub 仓库](https://github.com/SanN2Z/tanuki) 或培训指南进入时，先读 [成员接入](references/member-onboarding.md)，获取完整仓库并直接执行本文件。只需本次配置时可从仓库目录运行；安装为个人 skill 用于后续快捷调用。
 
+成员使用 Claude 的推荐方案是「各自已有梯子 → 静态家宽 → Claude」，通过 Clash Verge 全局扩展脚本和 Mihomo `dialer-proxy` 配置，按 [链式代理](references/clash-chain.md) 执行。其他网站保留原规则；用户明确选择其他拓扑时按该选择处理。
+
 将整个 tanuki 文件夹复制到 ~/.codex/skills/ 或 ~/.claude/skills/，在新会话中调用：
 
 - Codex：$tanuki
@@ -72,6 +74,7 @@ python <skill-dir>/scripts/collect_environment.py --project-dir <实际项目> -
 
 | 已有条件 | 下一步 |
 |---|---|
+| 个人电脑已有通用梯子和静态家宽 | 按 [Clash 链式代理](references/clash-chain.md) 复用前置，家宽作为最终出口 |
 | 已有可用 JP 出口 | 复用本人或明确获授权的配置，进入 B3 |
 | 已有 VPS，尚未部署 | 按 [网络接入](references/network-setup.md) 的 VPS 分支准备 |
 | 已有日本家宽/ISP 代理或自有日本家宽网关 | 按家宽分支准备；不额外强制购买 VPS |

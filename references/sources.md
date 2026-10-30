@@ -46,6 +46,7 @@
 - [sing-box 安装](https://sing-box.sagernet.org/installation/package-manager/)、[VLESS 入站](https://sing-box.sagernet.org/configuration/inbound/vless/)、[TLS/REALITY](https://sing-box.sagernet.org/configuration/shared/tls/) 与 [路由规则](https://sing-box.sagernet.org/configuration/route/rule/)：服务端模板与部署接口。
 - [Mihomo VLESS](https://wiki.metacubex.one/en/config/proxies/vless/)、[SOCKS](https://wiki.metacubex.one/en/config/proxies/socks/) 与 [dialer-proxy](https://wiki.metacubex.one/en/config/proxies/dialer-proxy/)：客户端协议和连接链方向。
 - [Clash Verge Rev 官方发行](https://github.com/clash-verge-rev/clash-verge-rev/releases) 与 [Mihomo 官方发行](https://github.com/MetaCubeX/mihomo/releases)：按当前平台与内核版本选包。
+- [Clash Verge Rev 自定义脚本](https://www.clashverge.dev/guide/script.html)：全局扩展脚本的 `main(config)` 入口、`profileName` 和规则前置合并。
 - [Python 官方下载](https://www.python.org/downloads/)：可选批量采集工具的运行环境。
 - [Microsoft nslookup 端口](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/nslookup-set-port)：查询独立测试 DNS 监听。
 

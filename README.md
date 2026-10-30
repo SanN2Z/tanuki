@@ -9,6 +9,8 @@
 
 已有配置先检测并修复，没有配置再从零准备。成员提供管理员分配的节点文件，并在需要时完成登录、系统授权等交互；Agent 负责具体命令、配置、验证与交接。完成后保留主线路、实际出口、日常启动方式和续接位置。
 
+推荐网络是 **各自已有梯子 → 静态家宽 IP → Claude / Anthropic**：在 Clash Verge 的「订阅 → 全局扩展脚本」中配置家宽节点，以 `dialer-proxy` 指向现有前置节点，并将相关域名分流至家宽。其他网站保留原规则。配置见 [链式代理流程](references/clash-chain.md) 和 [脚本模板](assets/clash-verge-claude-chain.js)。
+
 完整流程由仓库维护，后续复查仍使用同一个入口。具备本机文件与终端能力即可开始，无需成员先手动安装 skill 或准备开发工具。
 
 ## 适用场景
@@ -53,6 +55,7 @@ $tanuki 继续 <work-dir>/RUN.md
 ## Agent 工作流
 
 - [培训入口与成员交接](references/member-onboarding.md)
+- [Clash 全局扩展脚本与静态家宽链式代理](references/clash-chain.md)
 - [Claude 应用接入与故障分流](references/claude-usage.md)
 - [用途与中转机流程](references/roles.md)
 - [检测流程](references/detection.md)

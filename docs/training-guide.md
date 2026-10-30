@@ -2,23 +2,21 @@
 
 **日常以 Claude Code CLI 为主，从网络配置到完成任务。**
 
-Claude Code CLI 在终端中使用，可以直接读取项目文件、修改代码、运行命令并继续之前的任务。日常工作放在 CLI；首次登录、账单和账号管理按提示使用浏览器。
-
 ## 01 开始前，先把环境配好
 
-本手册按以下顺序使用：**网络与出口 → CLI 代理 → 安装登录 → 日常任务 → 命令与用量 → 维护排障**。Windows 使用 PowerShell；macOS / Linux 使用系统终端。命令与安装方式按 2026 年 10 月 29 日的官方文档整理。
+使用顺序：**网络与出口 → CLI 代理 → 安装登录 → 日常任务 → 命令与用量 → 维护排障**。Windows 使用 PowerShell；macOS / Linux 使用系统终端。
 
-准备好管理员分配的节点或家宽配置、自己获授权的 Claude 账号，以及能在目标电脑读文件、执行命令的 Agent。配置还没拿到时，说明“尚未分配”。
+**推荐方案：各自已有的科学上网线路 + 静态家宽 IP，在 Clash Verge 中配置链式代理。** Claude / Anthropic 请求经前置节点连接家宽，最终由家宽访问服务；其他网站继续按原订阅规则访问。此方案无需自行购买 VPS 搭建中转。
 
-### 需要自建 VPS 时，从官方入口购买
+### 开始前准备这些资源
 
-| 商家 | 注册 / 购买入口 | 套餐与价格 |
-|---|---|---|
-| LightNode | [官网](https://www.lightnode.com/) · [控制台](https://console.lightnode.com/) | [东京 VPS](https://go.lightnode.com/tokyo-vps) |
-| Vultr | [官网](https://www.vultr.com/) · [控制台](https://my.vultr.com/) | [价格页](https://www.vultr.com/pricing/) |
-| Akamai / Linode | [注册与登录](https://login.linode.com/) | [价格页](https://www.akamai.com/cloud/pricing/) |
+| 资源 | 需要准备的内容 |
+|---|---|
+| 自己常用的梯子 | 在 Clash Verge 中已能正常使用的订阅与前置节点 |
+| 静态家宽 IP | 管理员分配的配置，或在 [米芽 IP · 静态代理](https://miyaip.com/dashboard/staticProxy) 按需购买；取得地址、端口、协议和认证信息 |
+| Claude 与本机 Agent | 自己获授权的 Claude 账号，以及能在目标电脑读文件、执行命令的 Agent |
 
-购买前确认地区、Linux 系统、独立 IPv4、月流量和计费规则；付款后把服务器信息的本地文件位置交给 Agent 部署。VPS 通常提供机房 IP；静态家宽 IP 可在 [米芽 IP · 静态代理](https://miyaip.com/dashboard/staticProxy) 按需另购。具体价格与库存以购买页面为准。
+家宽配置还没拿到时说明“尚未分配”。购买前阅读下一节的设备与来源 IP 限制，结合自己的网络决定是否购买。节点、订阅和家宽凭据交给 Agent 从本地私有文件读取。
 
 ### 把下面整段交给本机 Agent
 
@@ -26,6 +24,9 @@ Claude Code CLI 在终端中使用，可以直接读取项目文件、修改代�
 请获取 https://github.com/SanN2Z/tanuki，读取 SKILL.md 并执行。
 这台电脑用于个人日常工作，主要用 Claude Code CLI，同时需要浏览器完成登录。
 已有配置先检测并修复，没有配置从零准备；优先复用管理员分配的资源。
+采用 Clash Verge / Mihomo 链式代理：现有梯子作为前置，静态家宽作为最终出口。
+在全局扩展脚本中合并家宽节点及 Claude / Anthropic 分流规则；用 dialer-proxy 指向现有前置节点。
+保留原订阅和其他网站的规则，使用规则模式，并核对实际生成配置与连接链。
 请检查实际出口、CLI 的代理继承、官方客户端安装和认证方式，完成必要的已授权安装与可逆配置。
 保留正在使用的代理和远程连接；涉及活动线路、系统代理、TUN 或防火墙切换时，先准备方案与回退，再让我确认。
 完成后给我主线路、实际出口、CLI 启动方法、恢复方法和 RUN.md 位置。
@@ -37,44 +38,74 @@ Claude Code CLI 在终端中使用，可以直接读取项目文件、修改代�
 
 <div class="page-break"></div>
 
-## 02 网络安全：确认实际走哪条出口
+## 02 推荐网络：Clash 链式代理
 
-典型链路是：**你的电脑 → 本地代理客户端 → 管理员分配的固定出口 → Claude**。直达出口不稳定时，才按方案增加中转；最终出口仍使用管理员确认的资源。
+推荐链路：**Claude Code / 登录浏览器 → 本机 Clash → 自己常用的梯子前置节点 → 静态家宽 IP → Claude / Anthropic**。家宽负责最终出口，已有梯子负责连接家宽端点。
 
-**家宽连接上限：** 部分产品限 2 台设备同时连接；校园网来源 IP 可能变化，若商家按来源计数、旧连接未释放，两台电脑也可能触发上限。购买前向客服确认计数和释放规则，结合网络与设备数量自主决定是否购买。
+### 在 Clash Verge 中从哪里配置
 
-### 先弄懂四个词
+1. 打开左侧 **订阅**，选中平时使用且已经可用的通用梯子订阅。
+2. 找到页面中的 **全局扩展脚本（Script）**，打开编辑。已有脚本时，让 Agent 把新增内容合并到原来的 `main(config)` 中，并保存原件。
+3. 加入静态家宽节点，在该节点上设置 `dialer-proxy`，指向现有梯子的一个稳定前置节点。再把 Claude / Anthropic 域名规则放到原规则前面，指向家宽节点。
+4. 先由 Agent 检查候选配置，再按已授权范围应用。运行时使用 **规则模式**；“全局扩展脚本”表示脚本的作用范围，与代理的“全局模式”不同。
 
-| 名称 | 实际含义 |
+全局脚本会处理各个订阅。切换订阅后，前置节点名仍须存在；不同订阅需要不同配置时，由 Agent 使用 `profileName` 区分。订阅更新后查看最终生成配置，确认链路和分流仍有效。
+
+### 几个名称分别指什么
+
+| 名称 | 在这套方案中的作用 |
 |---|---|
-| 节点 | 代理客户端中的连接配置；名称不等于真实出口 |
-| 出口 IP | Claude 实际看到的网络来源地址，以测量结果为准 |
-| HTTP / mixed 端口 | CLI 接入本地代理的入口，与最终出口 IP 不同 |
-| TUN / 断线保护 | 分别负责流量接管与故障时的连接行为，覆盖范围要验证 |
+| 前置节点 | 各自通用梯子中的节点，用来连接家宽代理端点 |
+| 静态家宽节点 | 保存供应商地址、端口与认证信息，是 Claude 的最终出口 |
+| `dialer-proxy` | 写在家宽节点上，值为前置节点或代理组的准确名称 |
+| HTTP / mixed 端口 | CLI 连接本机 Clash 的入口；家宽即使是 SOCKS5，CLI 仍连接这里 |
 
-### 请 Agent 验证这几件事
+### 家宽连接上限与校园网注意事项
 
-| 验证对象 | 你应拿到的结果 |
-|---|---|
-| 实际出口 | 当前线路、出口地址、地区与测量时间 |
-| Claude Code | 真实 CLI 进程使用的代理及目标请求路径 |
-| 登录浏览器 | 登录所用浏览器的连接正常，路径符合方案 |
-| 相关网络路径 | 所需 DNS、IPv6、UDP / WebRTC 按实际设备检查 |
-| 故障回退 | 认可出口失效时按既定方案失败或回退，保持管理连接 |
+**部分产品限 2 台设备同时连接，具体计数方式以所选套餐为准。** 校园网可能更换公网来源 IP；直连家宽时，这可能被商家识别为新的来源。采用本方案时，家宽商家通常看到前置节点的公网 IP；切换节点或自动选路也可能改变这个来源。
 
-浏览器能打开网页、单次 IP 查询成功，只说明对应请求通过。CLI、WSL、容器和 SSH 远端要按各自实际运行位置确认。
+如果商家按来源 IP 计数且旧连接尚未释放，即使只有两台电脑，也可能触发上限。购买前向客服确认计数、释放和白名单规则，结合自己的网络及设备数量自主决定是否购买。前置节点变化时，家宽需要的来源白名单也要相应核对。
 
-### 配好后保存一张交接卡
+来源：[Mihomo 链式代理](https://wiki.metacubex.one/config/proxies/dialer-proxy/)、[Clash Verge 全局扩展脚本](https://www.clashverge.dev/guide/script.html)。
 
-```text
-主线路 / 备用方案：
-实际出口与测量时间：
-本地 HTTP / mixed 端口：
-CLI 日常启动方式：
-配置、备份、恢复方法和 RUN.md 位置：
+<div class="page-break"></div>
+
+## 02 扩展脚本与实际验收（续）
+
+下面是 SOCKS5 家宽的示例。让 Agent 按真实资料替换地址、端口、认证和前置节点名，再合并到已有脚本。完整文件见 [链式代理脚本](https://github.com/SanN2Z/tanuki/blob/main/assets/clash-verge-claude-chain.js)，详细步骤见 [Agent 配置说明](https://github.com/SanN2Z/tanuki/blob/main/references/clash-chain.md)。
+
+```javascript
+function main(config) {
+  const name = "Claude-静态家宽";
+  const exit = {
+    name, type: "socks5",
+    server: "替换为家宽地址", port: 1080,
+    username: "替换为用户名", password: "替换为密码",
+    "dialer-proxy": "替换为现有固定前置节点名"
+  };
+  config.proxies = (config.proxies || [])
+    .filter(proxy => proxy.name !== name).concat(exit);
+  const rules = ["anthropic.com", "claude.ai", "claude.com",
+    "claudeusercontent.com", "claudemcpcontent.com"]
+    .map(domain => `DOMAIN-SUFFIX,${domain},${name}`);
+  config.rules = rules.concat((config.rules || [])
+    .filter(rule => !rules.includes(rule)));
+  return config;
+}
 ```
 
-时区、浏览器语言和其他差异交给 Agent 按实际用途判断，保留需要的中文输入法、字体和工作软件。具体方法见仓库的 [检测流程](../references/detection.md)。
+前置节点须真实存在，且不能指向家宽节点本身或包含它的循环代理组。HTTP / HTTPS 家宽按商家协议修改，IP 白名单认证时去掉用户名和密码。端口 `1080` 只是示例。域名规则覆盖 Claude 的主要服务、登录与内容域名，其他网站沿用原规则；新增第三方服务按实际请求处理。
+
+### 请 Agent 验证实际路径并交接
+
+| 验证对象 | 需要拿到的结果 |
+|---|---|
+| 生成配置与规则 | 家宽节点正确引用前置；上述域名在宽泛规则前命中家宽 |
+| CLI 与登录浏览器 | 实际请求经过前置与家宽；CLI 发出一条简短请求成功 |
+| 家宽出口 | 定向经家宽的 IP 查询结果与供应商资料吻合，记录时间 |
+| 日常使用与恢复 | 本机 HTTP / mixed 端口、前置节点、家宽出口、CLI 启动方法、备份及 `RUN.md` 位置 |
+
+普通查 IP 网页可能仍走原梯子，不能据此判断 Claude 的出口。让 Agent 结合真实目标连接链与定向查询取证。WSL、容器和 SSH 远端按实际运行位置验证。故障时按保存的方案恢复，保持校园认证和管理连接。
 
 <div class="page-break"></div>
 
@@ -389,3 +420,7 @@ CLI 是日常工作方式，不提供免封能力。固定出口、实际请求�
 指南与 GitHub 地址可以转发。节点二维码、订阅、密码和账号令牌只交给指定维护者，保留在私有位置。
 
 官方入口：[服务状态](https://status.claude.com/) · [账号申诉](https://support.claude.com/en/articles/8241253-safeguards-warnings-and-appeals) · [账号条款](https://www.anthropic.com/legal/consumer-terms) · [支持地区](https://www.anthropic.com/legal/supported-regions)。
+
+### 可选的 VPS 购买入口
+
+确有自建其他服务的需求时，可参考 [LightNode](https://www.lightnode.com/)、[Vultr](https://www.vultr.com/) 和 [Akamai / Linode](https://www.akamai.com/cloud/pricing/)。价格与库存以商家页面为准。本文推荐的 Clash 链式代理使用已有梯子连接家宽。
