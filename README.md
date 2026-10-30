@@ -1,11 +1,12 @@
 # tanuki · 网络环境配置与检测
 
-成员先读培训指南，把仓库地址交给能在本机执行命令的 Agent，按 tanuki 流程完成环境检测、配置和交接。默认目标出口为日本。
+成员将统一 Prompt 和家宽截图或文本交给本机 Codex，由 tanuki 连续完成环境、Clash 链式代理、浏览器、CLI、防火墙与防泄漏配置和交接。目标国家按分配的家宽资源确定。
 
 ## 给成员的入口
 
-1. 阅读 [Claude 使用指南](docs/training-guide.md)，或直接转发 [PDF](docs/training-guide.pdf)。指南以 Claude Code CLI 为主，覆盖网络配置、代理接入、安装登录、日常任务、命令、用量和故障处理。
-2. 把指南第 1 节的配置请求整段发给本机 Agent，由它获取本仓库、读取 [SKILL.md](SKILL.md) 并执行。
+1. 管理员通过微信发送 [统一配置 Prompt](docs/member-setup-prompt.txt)，同时附上分配给该成员的家宽截图或文本。
+2. 成员将二者交给本机 Codex。Codex 获取仓库、安装完整 skill，读取 [SKILL.md](SKILL.md)，执行 [成员完整配置 SOP](references/member-full-setup.md)。
+3. 日常使用阅读 [Claude 使用指南](docs/training-guide.md)，或转发 [PDF](docs/training-guide.pdf)。完成配置后按本机 `START-HERE.md` 启动，按 `RUN.md` 续接和恢复。
 
 已有配置先检测并修复，没有配置再从零准备。成员提供管理员分配的节点文件，并在需要时完成登录、系统授权等交互；Agent 负责具体命令、配置、验证与交接。完成后保留主线路、实际出口、日常启动方式和续接位置。
 
@@ -26,7 +27,7 @@
 
 下载 [dist/tanuki.zip](dist/tanuki.zip)，解压后将整个 tanuki 目录放到：
 
-- Codex：~/.codex/skills/
+- Codex：~/.agents/skills/
 - Claude Code：~/.claude/skills/
 
 在新会话调用 $tanuki 或 /tanuki。其他具备本机终端能力的 agent 可直接读取 [SKILL.md](SKILL.md)。
@@ -55,6 +56,7 @@ $tanuki 继续 <work-dir>/RUN.md
 ## Agent 工作流
 
 - [培训入口与成员交接](references/member-onboarding.md)
+- [成员完整配置 SOP](references/member-full-setup.md)
 - [Clash 全局扩展脚本与静态家宽链式代理](references/clash-chain.md)
 - [Claude 应用接入与故障分流](references/claude-usage.md)
 - [用途与中转机流程](references/roles.md)
@@ -65,6 +67,8 @@ $tanuki 继续 <work-dir>/RUN.md
 - [检测面](references/surfaces.md)、[平台操作](references/platforms.md)、[验收](references/acceptance.md)
 
 包内提供配置模板、Python 只读采集器和无界面的浏览器探针。节点、账号、运行报告、备份和下载工具均保留在使用者本机，不属于技能分发包。
+
+采集器默认检查 JP；成员资源为其他国家时传入 `--target-country US` 等实际国家代码。需要核对具体时区时，再传入本机系统格式的 `--target-timezone`。Codex 的个人安装目录见 [官方 Skills 文档](https://learn.chatgpt.com/docs/build-skills)。
 
 ## 验证
 

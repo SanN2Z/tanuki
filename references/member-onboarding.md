@@ -2,6 +2,8 @@
 
 对应成员阅读的 [Claude 使用指南](../docs/training-guide.md)。成员提供自己分配到的资源，再把仓库地址和用途交给能在目标电脑执行命令的 Agent；日常使用以 Claude Code CLI 为主。
 
+微信分发使用 [统一配置 Prompt](../docs/member-setup-prompt.txt)，同条消息附家宽截图或文本。Codex 取得完整仓库后，安装到 `~/.agents/skills/tanuki/` 并执行 [成员完整配置 SOP](member-full-setup.md)，涵盖环境、Clash、浏览器、CLI、防火墙与防泄漏。资源地区覆盖默认 JP，真实信息只保存在成员本机。
+
 ## 获取与开始
 
 1. 获取完整的 [tanuki 仓库](https://github.com/SanN2Z/tanuki)，读取根目录 `SKILL.md`。本地已有副本时先确认来源与工作区状态，保留用户修改，避免覆盖。

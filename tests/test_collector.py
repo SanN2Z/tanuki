@@ -69,8 +69,27 @@ class CollectorTests(unittest.TestCase):
                 ("Asia/Shanghai", 480, "different"),
             ]:
                 with self.subTest(zone=zone):
-                    report = {"system": {"timezone_id": zone, "offset_minutes": offset}}
+                    report = {"target": {"country": "JP", "timezone": "Asia/Tokyo", "offset_minutes": 540},
+                              "system": {"timezone_id": zone, "offset_minutes": offset}}
                     self.assertEqual(collector.observations(report)[0]["status"], expected)
+
+    def test_assigned_us_exit_does_not_require_japan_or_tokyo(self):
+        def measured(*args):
+            return {"providers": [{"source": "fixture", "status": "measured", "country": "US"}]}
+        report, probe = self.invoke_main(["--network", "--target-country", "US"], measured)
+        probe.assert_called_once()
+        self.assertEqual(report["target"]["country"], "US")
+        self.assertIsNone(report["target"]["timezone"])
+        self.assertEqual(report["observations"][0]["status"], "not_requested")
+        self.assertEqual(report["observations"][-1]["status"], "aligned")
+
+    def test_explicit_timezone_is_compared_with_the_os(self):
+        report = {"target": {"country": "US", "timezone": "Pacific Standard Time", "offset_minutes": None},
+                  "system": {"timezone_id": "Pacific Standard Time", "offset_minutes": -420}}
+        with mock.patch.object(collector.os, "environ", {}):
+            self.assertEqual(collector.observations(report)[0]["status"], "aligned")
+            report["system"]["timezone_id"] = "Tokyo Standard Time"
+            self.assertEqual(collector.observations(report)[0]["status"], "different")
 
     def invoke_main(self, argv, network):
         out = io.StringIO()

@@ -1,11 +1,17 @@
 ---
 name: tanuki
-description: "先确认个人电脑或中转机用途，再选择从零配置或检测模式。建立日本出口环境，或排查现有代理、DNS、IPv6、浏览器及转发链路中的泄露和配置遗漏；缺资源时暂停并续接。"
+description: "接收家宽截图或代理信息，配置个人电脑的链式代理、浏览器、CLI 与防泄漏环境；也支持现有网络检测和中转机配置。"
 ---
 
 # 网络环境配置与检测
 
-调用名 tanuki。个人电脑和中转机分别处理；从零配置与检测使用不同流程。网络目标默认 JP，实际运行目标应用的终端再核对 Tokyo 时区、UTC+09:00、日本地区格式和所需语言。
+调用名 tanuki。个人电脑和中转机分别处理；从零配置与检测使用不同流程。优先采用用户分配的家宽国家与出口，未指定资源或地区时常规入口默认 JP。地区、时区与语言按实际目标处理，保留需要的界面和输入法。
+
+## 成员一键入口
+
+用户提供家宽截图 / 代理文本并要求配好环境时，直接执行 [成员完整配置 SOP](references/member-full-setup.md)：读取资源 → 本机环境与恢复准备 → Clash 链式代理 → CLI 与真实浏览器 → 防火墙与防泄漏 → 实际验收和交接。沿用个人电脑用途，已有配置先检测修复，缺少部分从零准备，不再重复用途问答。标准请求见 [微信转发 Prompt](docs/member-setup-prompt.txt)。
+
+截图中的供应商接入端点与最终出口分开解析；地区覆盖日本默认值。所有真实凭据保存在成员本机私有文件。任务只要求编写 / 更新技能或 Prompt 时，处理分发文件，不配置执行任务的宿主机。
 
 ## 使用
 
@@ -13,7 +19,7 @@ description: "先确认个人电脑或中转机用途，再选择从零配置或
 
 成员使用 Claude 的推荐方案是「各自已有梯子 → 静态家宽 → Claude」，通过 Clash Verge 全局扩展脚本和 Mihomo `dialer-proxy` 配置，按 [链式代理](references/clash-chain.md) 执行。其他网站保留原规则；用户明确选择其他拓扑时按该选择处理。
 
-将整个 tanuki 文件夹复制到 ~/.codex/skills/ 或 ~/.claude/skills/，在新会话中调用：
+将整个 tanuki 文件夹复制到 Codex 的 ~/.agents/skills/ 或 Claude Code 的 ~/.claude/skills/，通过 $tanuki 或 /tanuki 调用；当前会话也可直接读取安装后的 SKILL.md 执行。
 
 - Codex：$tanuki
 - Claude Code：/tanuki
@@ -65,17 +71,17 @@ B0～B6 只用于从零配置，或检测后已获授权的相关修复。按角
 按 [平台操作](references/platforms.md) 和 [检测面](references/surfaces.md) 取得角色所需基线。个人电脑或中转机上确实运行目标应用的用户，有 Python 时可运行：
 
 ~~~text
-python <skill-dir>/scripts/collect_environment.py --project-dir <实际项目> --output <work-dir>/before.json
+python <skill-dir>/scripts/collect_environment.py --target-country <本次国家代码> --project-dir <实际项目> --output <work-dir>/before.json
 ~~~
 
 纯跳板/转发机使用 roles.md 的网络与服务采集范围；没有 Python 时用系统命令完成关键观测，结果写入 RUN.md。宿主机、WSL、容器、SSH 远端分别判断；沙箱代理、工具后端和新建自动化浏览器不能代表用户实际环境。
 
-仅做 SSH/frp 跳板且没有上网转发或机上 JP 应用需求时，出口采购与个人地区配置标为不适用；只处理其隧道、内网、管理及常驻需求。有 JP 出站需求时，根据用户已有资源选最短可用路径：
+仅做 SSH/frp 跳板且没有上网转发或机上目标应用需求时，出口采购与个人地区配置标为不适用；只处理其隧道、内网、管理及常驻需求。有目标地区出站需求时，根据用户已有资源选最短可用路径：
 
 | 已有条件 | 下一步 |
 |---|---|
 | 个人电脑已有通用梯子和静态家宽 | 按 [Clash 链式代理](references/clash-chain.md) 复用前置，家宽作为最终出口 |
-| 已有可用 JP 出口 | 复用本人或明确获授权的配置，进入 B3 |
+| 已有可用目标地区出口 | 复用本人或明确获授权的配置，进入 B3 |
 | 已有 VPS，尚未部署 | 按 [网络接入](references/network-setup.md) 的 VPS 分支准备 |
 | 已有日本家宽/ISP 代理或自有日本家宽网关 | 按家宽分支准备；不额外强制购买 VPS |
 | 缺少出口 | 完成其他不依赖出口的检查，进入 B2 |
@@ -95,7 +101,7 @@ python <skill-dir>/scripts/collect_environment.py --project-dir <实际项目> -
 
 按 [网络接入](references/network-setup.md) 生成本次私有配置并完成必要的已授权服务端部署。包内 assets/ 提供 VPS 服务端、两类客户端和 systemd 模板；先替换占位值并用实际内核解析。
 
-用独立目录、空闲回环端口、TUN 关闭的实例测试；记录并清理自己创建的 PID。验证目标电脑到出口的实际协议握手、HTTPS、JP 出口、DNS和需要的 UDP 功能。代理还可能经过现有 TUN，必须记录实际出站接口/链路。
+用独立目录、空闲回环端口、TUN 关闭的实例测试；记录并清理自己创建的 PID。验证目标电脑到出口的实际协议握手、HTTPS、目标地区出口、DNS 和需要的 UDP 功能。代理还可能经过现有 TUN，必须记录实际出站接口/链路。
 
 只有目标电脑试连成功才能进入 B4。端口通、配置解析通过、别的电脑能连均不能替代。失败按网络接入文档定位对应层；无新证据时保留阻塞，不靠无限重试或关闭证书验证“修好”。
 
@@ -119,8 +125,8 @@ python <skill-dir>/scripts/collect_environment.py --project-dir <实际项目> -
 使用 Python 时，普通只读公网查询直接执行；服务会看到请求出口 IP：
 
 ~~~text
-python <skill-dir>/scripts/collect_environment.py --network --output <work-dir>/network.json
-python <skill-dir>/scripts/collect_environment.py --network --proxy http://127.0.0.1:<已确认端口> --output <work-dir>/proxy.json
+python <skill-dir>/scripts/collect_environment.py --target-country <本次国家代码> --network --output <work-dir>/network.json
+python <skill-dir>/scripts/collect_environment.py --target-country <本次国家代码> --network --proxy http://127.0.0.1:<已确认端口> --output <work-dir>/proxy.json
 ~~~
 
 第二条是对照路径，检查 NO_PROXY 是否绕过。一次失败保留“未验证”，不为对照关闭工作中的 VPN 或强制直连。

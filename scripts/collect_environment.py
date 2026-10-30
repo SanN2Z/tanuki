@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only local evidence for Japan-region environment consistency."""
+"""Read-only local evidence for the assigned egress region and application environment."""
 import sys
 
 for _stream in (sys.stdout, sys.stderr):
@@ -325,12 +325,23 @@ def probe_network(proxy):
 def observations(report):
     result = []
     system = report["system"]
+    target = report["target"]
     zone = system.get("timezone_id")
     offset = system["offset_minutes"]
-    known_japan = zone in ("Asia/Tokyo", "Tokyo Standard Time", "Japan")
+    timezone = target["timezone"]
+    expected_offset = target["offset_minutes"]
+    zone_matches = zone == timezone or (
+        timezone == "Asia/Tokyo" and zone in ("Tokyo Standard Time", "Japan"))
+    if timezone is None:
+        timezone_status = "not_requested"
+    elif expected_offset is not None and offset != expected_offset:
+        timezone_status = "different"
+    elif not zone:
+        timezone_status = "unverified"
+    else:
+        timezone_status = "aligned" if zone_matches else "different"
     result.append({"surface": "system_timezone",
-                   "status": "aligned" if known_japan and offset == 540 else
-                             "unverified" if not zone and offset == 540 else "different",
+                   "status": timezone_status,
                    "actual": {"timezone_id": zone, "offset_minutes": offset}})
     runtime_tz = os.environ.get("TZ")
     if runtime_tz and runtime_tz != zone:
@@ -338,7 +349,7 @@ def observations(report):
                        "actual": runtime_tz, "note": "Process override differs from OS timezone evidence."})
     for source in report.get("network", {}).get("providers", []):
         result.append({"surface": source["source"], "status":
-                       ("aligned" if source["country"] == "JP" else "different")
+                       ("aligned" if source["country"] == target["country"] else "different")
                        if source["status"] == "measured" else "unverified",
                        "country": source.get("country")})
     return result
@@ -351,12 +362,18 @@ def main():
     parser.add_argument("--network", action="store_true", help="Query two public IP information providers once.")
     parser.add_argument("--proxy", help="HTTP(S) proxy for the network comparison only.")
     parser.add_argument("--browser-report", type=Path, help="Attach JSON returned by the bundled browser probe.")
+    parser.add_argument("--target-country", default="JP", type=str.upper,
+                        help="Expected egress country code, for example JP or US.")
+    parser.add_argument("--target-timezone",
+                        help="Expected OS timezone ID. Defaults to Asia/Tokyo for JP; otherwise not requested.")
     args = parser.parse_args()
     if args.proxy and (not args.network or urllib.parse.urlsplit(args.proxy).scheme not in ("http", "https")):
         parser.error("--proxy requires --network and an http:// or https:// URL")
+    timezone = args.target_timezone or ("Asia/Tokyo" if args.target_country == "JP" else None)
     report = {"kind": "tanuki-local-report",
               "collected_at": dt.datetime.now(dt.timezone.utc).isoformat(),
-              "target": {"country": "JP", "timezone": "Asia/Tokyo", "offset_minutes": 540},
+              "target": {"country": args.target_country, "timezone": timezone,
+                         "offset_minutes": 540 if timezone == "Asia/Tokyo" else None},
               "system": system_evidence(), "process_environment": env_summary(os.environ),
               "browsers": browser_evidence(), "claude": claude_evidence(args.project_dir),
               "proxy_config_files": proxy_config_candidates()}

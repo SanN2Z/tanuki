@@ -1,4 +1,4 @@
 interface:
-  display_name: "网络环境配置与检测"
-  short_description: "区分个人电脑与中转机，支持从零配置或检测泄露，先确认用途和模式再执行"
-  default_prompt: "使用 $tanuki，沿用用户已说明的设备用途、任务模式和授权，只补问影响执行的缺项；按相应流程检测或配置，完成后交付日常使用和续接方式。"
+  display_name: "家宽环境配置与检测"
+  short_description: "接收家宽截图，复用本机代理，完成浏览器、CLI、防火墙与防泄漏配置"
+  default_prompt: "使用 $tanuki，读取随附家宽截图或文本并复用本机现有代理，按成员完整配置 SOP 完成环境、Clash 链式、浏览器、CLI、防火墙与防泄漏配置，交付使用和恢复方法。"

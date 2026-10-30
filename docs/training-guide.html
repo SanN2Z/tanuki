@@ -68,20 +68,67 @@ table:has(code) th:first-child, table:has(code) td:first-child { width: 38%; }
 </tbody>
 </table>
 <p>家宽配置还没拿到时说明“尚未分配”。购买前阅读下一节的设备与来源 IP 限制，结合自己的网络决定是否购买。节点、订阅和家宽凭据交给 Agent 从本地私有文件读取。</p>
-<h3>把下面整段交给本机 Agent</h3>
-<pre><code class="language-text">请获取 https://github.com/SanN2Z/tanuki，读取 SKILL.md 并执行。
-这台电脑用于个人日常工作，主要用 Claude Code CLI，同时需要浏览器完成登录。
-已有配置先检测并修复，没有配置从零准备；优先复用管理员分配的资源。
-采用 Clash Verge / Mihomo 链式代理：现有梯子作为前置，静态家宽作为最终出口。
-在全局扩展脚本中合并家宽节点及 Claude / Anthropic 分流规则；用 dialer-proxy 指向现有前置节点。
-保留原订阅和其他网站的规则，使用规则模式，并核对实际生成配置与连接链。
-请检查实际出口、CLI 的代理继承、官方客户端安装和认证方式，完成必要的已授权安装与可逆配置。
-保留正在使用的代理和远程连接；涉及活动线路、系统代理、TUN 或防火墙切换时，先准备方案与回退，再让我确认。
-完成后给我主线路、实际出口、CLI 启动方法、恢复方法和 RUN.md 位置。
+<h3>把家宽信息和下面这段一起交给本机 Codex</h3>
+<pre><code class="language-text">请获取 https://github.com/SanN2Z/tanuki，读取 SKILL.md 并按“成员完整配置 SOP”执行。
+把完整 skill 安装到 ~/.agents/skills/tanuki/，本次直接读取并执行。
+这台是个人电脑；家宽信息见随附截图或文本，目标地区按本次资源确定。
+自行读取已有代理，复用常用梯子为前置，配置静态家宽为 Claude / Anthropic 最终出口。
+连续完成环境、Clash 链式、CLI、浏览器、防火墙和 DNS / IPv6 / WebRTC 防泄漏配置。
+本次授权你先备份和验证候选，再按本机规则执行上述范围内必要的安装与可逆调整。
+保持工作中的 Clash / Mihomo，保留其他网站分流、校园认证及 Codex / 远程管理连接。
+需要系统授权或账号登录时告诉我当前一步；完成后交付 START-HERE.md、RUN.md 和恢复方法。
 </code></pre>
 <p>当前 Claude 尚不能联网时，用另一个已经可用的本机 Agent，或请管理员先完成网络接入。只有普通网页聊天窗口时，需要把操作交给有本机执行权限的 Agent。</p>
-<p>项目地址：<a href="https://github.com/SanN2Z/tanuki">https://github.com/SanN2Z/tanuki</a>。GitHub 暂时无法访问时，由管理员传入完整仓库 ZIP，再让 Agent 读取其中的 <code>SKILL.md</code> 继续。</p>
-</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>01 / 11</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
+<p>可直接转发 <a href="https://github.com/SanN2Z/tanuki/blob/main/docs/member-setup-prompt.txt">完整配置 Prompt</a>，同时附上家宽截图或文本。GitHub 暂时无法访问时，由管理员传入完整仓库 ZIP，再读取 <code>SKILL.md</code> 继续。</p>
+</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>01 / 12</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
+
+<h2>01 一次请求，完成成员完整配置（续）</h2>
+<p>管理员发送统一 Prompt 和本组家宽信息；成员将二者交给本机 Codex。信息可以是供应商截图、分字段文本或完整代理字符串，Codex 按 <a href="https://github.com/SanN2Z/tanuki/blob/main/references/member-full-setup.md">成员完整配置 SOP</a> 连续执行。</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>Codex 完成的工作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>接收家宽信息</td>
+<td>解析供应商入口、端口、认证、出口 IP 和国家，凭据保存到本机私有文件</td>
+</tr>
+<tr>
+<td>环境与恢复准备</td>
+<td>读取已有代理、浏览器、CLI、DNS、路由和防火墙，备份将改动的设置</td>
+</tr>
+<tr>
+<td>Clash 链式代理</td>
+<td>复用现有梯子前置，合并全局扩展脚本，家宽节点配置 <code>dialer-proxy</code></td>
+</tr>
+<tr>
+<td>CLI 与真实浏览器</td>
+<td>配置本机代理入口，检查实际请求、登录路径与浏览器网络隐私设置</td>
+</tr>
+<tr>
+<td>防火墙与防泄漏</td>
+<td>按本机系统限制受保护应用直接出站，检查 DNS、IPv4/IPv6、WebRTC 和必要 UDP</td>
+</tr>
+<tr>
+<td>验收与交接</td>
+<td>验证出口、实际应用、故障拒绝与管理连接，生成日常使用和恢复说明</td>
+</tr>
+</tbody>
+</table>
+<h3>截图上的几种地址怎么理解</h3>
+<p>「中转代理详情」中的主机、端口、用户名和密码是一套供应商接入信息；「出口 IP」是最终家宽出口，用来验收。Codex 会分开使用，不把出口 IP 当作接入端点，也不混用「原始代理」与「中转代理」的端口或认证。</p>
+<p>目标地区以本次分配的家宽为准。分配美国线路就按美国出口验证；需要调整系统 / 浏览器时区时，以明确的城市时区为准，保留中文界面与输入法。</p>
+<h3>配完后成员拿到什么</h3>
+<ul>
+<li><code>START-HERE.md</code>：日常启动顺序、代理端口、Claude 使用方法和恢复动作。</li>
+<li><code>RUN.md</code>：配置进度、验证证据、备份位置与续接方法。</li>
+<li>本机私有配置：家宽资料和已生效的脚本，凭据保留在成员机器。</li>
+</ul>
+<p>一键 SOP 由 Codex 连续执行；系统密码、网络扩展授权、校园认证和账号登录按提示由本人完成。无法实际测试的项目集中留在交接记录中，之后从原进度继续。</p>
+</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>02 / 12</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
 
 <h2>02 推荐网络：Clash 链式代理</h2>
 <p>推荐链路：<strong>Claude Code / 登录浏览器 → 本机 Clash → 自己常用的梯子前置节点 → 静态家宽 IP → Claude / Anthropic</strong>。家宽负责最终出口，已有梯子负责连接家宽端点。</p>
@@ -124,7 +171,7 @@ table:has(code) th:first-child, table:has(code) td:first-child { width: 38%; }
 <p><strong>部分产品限 2 台设备同时连接，具体计数方式以所选套餐为准。</strong> 校园网可能更换公网来源 IP；直连家宽时，这可能被商家识别为新的来源。采用本方案时，家宽商家通常看到前置节点的公网 IP；切换节点或自动选路也可能改变这个来源。</p>
 <p>如果商家按来源 IP 计数且旧连接尚未释放，即使只有两台电脑，也可能触发上限。购买前向客服确认计数、释放和白名单规则，结合自己的网络及设备数量自主决定是否购买。前置节点变化时，家宽需要的来源白名单也要相应核对。</p>
 <p>来源：<a href="https://wiki.metacubex.one/config/proxies/dialer-proxy/">Mihomo 链式代理</a>、<a href="https://www.clashverge.dev/guide/script.html">Clash Verge 全局扩展脚本</a>。</p>
-</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>02 / 11</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
+</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>03 / 12</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
 
 <h2>02 扩展脚本与实际验收（续）</h2>
 <p>下面是 SOCKS5 家宽的示例。让 Agent 按真实资料替换地址、端口、认证和前置节点名，再合并到已有脚本。完整文件见 <a href="https://github.com/SanN2Z/tanuki/blob/main/assets/clash-verge-claude-chain.js">链式代理脚本</a>，详细步骤见 <a href="https://github.com/SanN2Z/tanuki/blob/main/references/clash-chain.md">Agent 配置说明</a>。</p>
@@ -175,7 +222,7 @@ table:has(code) th:first-child, table:has(code) td:first-child { width: 38%; }
 </tbody>
 </table>
 <p>普通查 IP 网页可能仍走原梯子，不能据此判断 Claude 的出口。让 Agent 结合真实目标连接链与定向查询取证。WSL、容器和 SSH 远端按实际运行位置验证。故障时按保存的方案恢复，保持校园认证和管理连接。</p>
-</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>03 / 11</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
+</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>04 / 12</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
 
 <h2>03 让 Claude Code CLI 使用代理</h2>
 <p><strong>本地代理已启动，不代表 CLI 一定使用了它。</strong> 先让 Agent 确认真实的 HTTP / mixed 监听地址。下面的 <code>7890</code> 只是示例，执行前替换为交接卡中的实际端口。</p>
@@ -202,7 +249,7 @@ claude
 </code></pre>
 <p>已有配置保留，由 Agent 合并 <code>env</code>。已有代理变量、<code>NO_PROXY</code> 或自定义网关时，让它核对生效顺序；小写代理变量可能优先于大写变量。Claude Code 需要 HTTP(S) 入口，不能仅填 SOCKS 地址。</p>
 <p>最后在真实 CLI 中发一条简短请求确认可用，并由 Agent 核对连接路径。相关语义见 <a href="https://code.claude.com/docs/en/network-config">官方网络配置</a>。</p>
-</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>04 / 11</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
+</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>05 / 12</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
 
 <h2>04 安装 CLI、登录并确认账号</h2>
 <h3>第一步：安装官方 Claude Code</h3>
@@ -245,7 +292,7 @@ claude auth status --text
 </tbody>
 </table>
 <p>存在 <code>ANTHROPIC_API_KEY</code>、旧网关或其他认证配置时，请 Agent 核对有效认证方式。能发出请求不等于正在消耗订阅额度。登录状态和终端命令见 <a href="https://code.claude.com/docs/en/cli-reference">CLI 参考</a>。</p>
-</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>05 / 11</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
+</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>06 / 12</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
 
 <h2>05 每天怎么开始一个任务</h2>
 <p><strong>先进入工作目录，再启动 Claude。</strong> 已有项目时，在它的目录中打开终端；初次练习可以建立一个专用目录。</p>
@@ -271,7 +318,7 @@ claude
 </code></pre>
 <p>Claude 请求文件或命令权限时，核对目标路径和动作是否属于这次任务。完成后打开结果；代码任务查看改动与相关验证结果。后续任务在同一目录继续。</p>
 <p>流程示例见 <a href="https://code.claude.com/docs/en/quickstart">官方快速入门</a> 与 <a href="https://code.claude.com/docs/en/common-workflows">常用工作流</a>。</p>
-</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>06 / 11</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
+</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>07 / 12</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
 
 <h2>06 怎样让 Claude 把事情做完整</h2>
 <p>把<strong>目标、材料、范围、交付文件和完成标准</strong>说清楚。大任务先讨论方案，范围明确后让它执行；常规小任务可以直接交付。</p>
@@ -296,7 +343,7 @@ claude
 <p>需要调整时直接说明具体差异，例如“保留现有结构，把第三段写得更具体”，或“报错仍在，复现步骤是……”。任务跑偏时打断并重述目标。工具报错时让它解释原因，再针对失败点继续。</p>
 <p>较大的代码改动可先用 <code>/plan</code> 讨论方案，执行后用 <code>/diff</code> 查看变更。任务交付以可打开的文件、实际输出或相关检查为依据。</p>
 <p>参考：<a href="https://code.claude.com/docs/en/common-workflows">任务组织</a>、<a href="https://code.claude.com/docs/en/best-practices">提示与上下文实践</a>、<a href="https://code.claude.com/docs/en/commands">命令说明</a>。</p>
-</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>07 / 11</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
+</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>08 / 12</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
 
 <h2>07 CLI 常用命令速查</h2>
 <h3>在系统终端输入</h3>
@@ -391,7 +438,7 @@ claude
 </table>
 <p><strong>打断与退出：</strong> <code>Ctrl+C</code> 可以打断正在执行的操作。空闲时首次按会清空输入，再次按退出。多行输入按当前终端显示的换行提示操作。</p>
 <p>命令与可用功能以本机 <code>/</code> 菜单为准。来源：<a href="https://code.claude.com/docs/en/cli-reference">CLI 参考</a>、<a href="https://code.claude.com/docs/en/commands">会话命令</a>、<a href="https://code.claude.com/docs/en/interactive-mode">交互快捷键</a>。</p>
-</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>08 / 11</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
+</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>09 / 12</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
 
 <h2>08 模型、上下文和额度怎么管理</h2>
 <h3>模型按任务选择</h3>
@@ -432,7 +479,7 @@ claude
 </table>
 <p>先限定相关文件、明确完成标准，避免反复重读大量无关资料。复杂任务拆成有交付结果的阶段。上下文整理用于减少后续负担，套餐额度按服务端窗口恢复。需要额外付费用量时先了解对应预算设置。</p>
 <p>来源：<a href="https://code.claude.com/docs/en/costs">官方用量与费用说明</a>、<a href="https://code.claude.com/docs/en/best-practices">上下文实践</a>。</p>
-</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>09 / 11</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
+</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>10 / 12</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
 
 <h2>09 把项目习惯和重复流程留下来</h2>
 <h3><code>CLAUDE.md</code> 保存项目约定</h3>
@@ -455,7 +502,7 @@ claude
 </code></pre>
 <p>需要继续配置时，把 Agent 交接的实际 <code>RUN.md</code> 路径告诉它；沿用原记录，从未完成位置继续。具备本机执行能力的其他 Agent 也可以直接读取仓库 <code>SKILL.md</code>。</p>
 <p>skill 保存重复操作流程；<code>CLAUDE.md</code> 保存当前项目习惯。安装位置见 <a href="https://code.claude.com/docs/en/skills">官方 skills 文档</a>，成员接入方式见 <a href="../references/member-onboarding.md">仓库流程</a>。</p>
-</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>10 / 11</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
+</article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>11 / 12</span></div></section><section class="sheet"><div class="topline">CLAUDE CODE · CLI 使用指南</div><article>
 
 <h2>10 故障处理、维护与账号使用边界</h2>
 <h3>按提示分开处理</h3>
@@ -511,4 +558,4 @@ claude
 <p>指南与 GitHub 地址可以转发。节点二维码、订阅、密码和账号令牌只交给指定维护者，保留在私有位置。</p>
 <p>官方入口：<a href="https://status.claude.com/">服务状态</a> · <a href="https://support.claude.com/en/articles/8241253-safeguards-warnings-and-appeals">账号申诉</a> · <a href="https://www.anthropic.com/legal/consumer-terms">账号条款</a> · <a href="https://www.anthropic.com/legal/supported-regions">支持地区</a>。</p>
 <h3>可选的 VPS 购买入口</h3>
-<p>确有自建其他服务的需求时，可参考 <a href="https://www.lightnode.com/">LightNode</a>、<a href="https://www.vultr.com/">Vultr</a> 和 <a href="https://www.akamai.com/cloud/pricing/">Akamai / Linode</a>。价格与库存以商家页面为准。本文推荐的 Clash 链式代理使用已有梯子连接家宽。</p></article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>11 / 11</span></div></section></body></html>
+<p>确有自建其他服务的需求时，可参考 <a href="https://www.lightnode.com/">LightNode</a>、<a href="https://www.vultr.com/">Vultr</a> 和 <a href="https://www.akamai.com/cloud/pricing/">Akamai / Linode</a>。价格与库存以商家页面为准。本文推荐的 Clash 链式代理使用已有梯子连接家宽。</p></article><div class="footer"><span>github.com/SanN2Z/tanuki</span><span>12 / 12</span></div></section></body></html>
