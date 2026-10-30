@@ -70,6 +70,8 @@ $tanuki 继续 <work-dir>/RUN.md
 
 采集器默认检查 JP；成员资源为其他国家时传入 `--target-country US` 等实际国家代码。需要核对具体时区时，再传入本机系统格式的 `--target-timezone`。Codex 的个人安装目录见 [官方 Skills 文档](https://learn.chatgpt.com/docs/build-skills)。
 
+macOS + Clash/Mihomo TUN 的完整 SOP 可按适用条件接入 [Valdemar-Yu/killswitch](https://github.com/Valdemar-Yu/killswitch) 整机断线保护，安装和恢复沿用原项目说明。
+
 ## 验证
 
 采集器测试：

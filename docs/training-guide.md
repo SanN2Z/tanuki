@@ -64,6 +64,10 @@
 
 一键 SOP 由 Codex 连续执行；系统密码、网络扩展授权、校园认证和账号登录按提示由本人完成。无法实际测试的项目集中留在交接记录中，之后从原进度继续。
 
+### Mac 的可选断线保护
+
+macOS + Clash/Mihomo TUN 可由 Codex 参考 [Valdemar-Yu/killswitch 原仓库](https://github.com/Valdemar-Yu/killswitch) 接入整机断线保护，启用前按 SOP 确认 PF 兼容性和本地恢复入口，保存 `killswitch rollback`；其他系统使用对应防火墙方案。
+
 <div class="page-break"></div>
 
 ## 02 推荐网络：Clash 链式代理
